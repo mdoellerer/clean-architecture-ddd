@@ -12,7 +12,7 @@
     "ramsey/uuid": "^4.0"
   },
     "scripts": {
-    "post-install-cmd": [
+    "post-update-cmd": [
       "php scripts/setup-sqlite.php"
     ]
   }
