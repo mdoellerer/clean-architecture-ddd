@@ -10,5 +10,10 @@
     "php": "^7.4 || ^8.0",
     "ext-pdo_sqlite": "*",
     "ramsey/uuid": "^4.0"
+  },
+    "scripts": {
+    "post-install-cmd": [
+      "php scripts/setup-sqlite.php"
+    ]
   }
 }

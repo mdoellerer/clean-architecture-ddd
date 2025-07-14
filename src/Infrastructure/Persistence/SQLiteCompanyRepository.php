@@ -11,7 +11,7 @@ class SQLiteCompanyRepository implements CompanyRepository
 {
     private PDO $pdo;
 
-    public function __construct(string $dbPath = __DIR__ . SQLITE_FILE_LOCATION)
+    public function __construct(string $dbPath = __DIR__ . '/../../../' . SQLITE_FILE_PATH)
     {
         $this->pdo = new PDO('sqlite:' . $dbPath);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
