@@ -1,8 +1,8 @@
-# architecture-ddd
-Simple, framework-agnostic project to demonstrate the Domain Driven Design architecture. 
+# clean-architecture-ddd
+Simple, framework-agnostic project to demonstrate the Domain Driven Design using Clean Architecture. 
 
 The 'fake' framework works as a very simplified RestAPI with a bootstrap and routing.
-The DDD part is located inside the src folder. The entity chosen was Company (no specific reason).
+The DDD and architecture part is located inside the src folder. 
 
 ## Requirements
  - PHP 8.0 or higher (it might work with 7.4)
@@ -14,7 +14,7 @@ The DDD part is located inside the src folder. The entity chosen was Company (no
 
 ### Download Code and run Composer
 You should be able to git clone or download the .zip file on your computer. On the application root (where the file composer.json is) run the command:
-`composer install`
+`composer update`
 
 It will install the dependencies and create a file for your database (as sqlite). 
 
@@ -48,6 +48,7 @@ It is also possible to make the requests using cURL, maybe in the future I add t
 This is not a perfect solution, it aims to show the DDD Architecture, the location of folders and files, and how to organize them.
 It has simplifications here and there, and some of those issues I might address in the future, let's see how it goes. 
 
+ - no Aggregates implemented yet
  - PUT method can create a new Object entirely
  - No implementation for PATCH
  - Id creation does not check for existing uid
