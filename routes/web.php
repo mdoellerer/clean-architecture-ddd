@@ -3,6 +3,9 @@
 use Infrastructure\Web\CompanyController;
 use Infrastructure\Persistence\SQLiteCompanyRepository;
 use Application\Company\CompanyService;
+use Application\Website\WebsiteService;
+use Infrastructure\Persistence\SQLiteWebsiteRepository;
+use Infrastructure\Web\WebsiteController;
 
 $uri = $_SERVER['REQUEST_URI'];
 $splitUri = explode('/', $uri);
@@ -33,6 +36,12 @@ function getController(string $entity)
         $repo = new SQLiteCompanyRepository();
         $service = new CompanyService($repo);
         return new CompanyController($service);  
+    }
+
+    if ($entity === WEBSITE_ENTITY_API_NAME){
+        $repo = new SQLiteWebsiteRepository();
+        $service = new WebsiteService($repo);
+        return new WebsiteController($service);  
     }
 }
 
