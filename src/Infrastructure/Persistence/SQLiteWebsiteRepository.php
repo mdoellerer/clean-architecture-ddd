@@ -18,6 +18,7 @@ class SQLiteWebsiteRepository implements WebsiteRepository
 
         $this->pdo->exec("CREATE TABLE IF NOT EXISTS websites (
             id TEXT PRIMARY KEY,
+            company_id TEXT NOT NULL,
             address TEXT NOT NULL,
             source TEXT NOT NULL
         )");
@@ -25,9 +26,10 @@ class SQLiteWebsiteRepository implements WebsiteRepository
 
     public function save(Website $website): void
     {
-        $stmt = $this->pdo->prepare("REPLACE INTO websites (id, address, source) VALUES (:id, :address, :source)");
+        $stmt = $this->pdo->prepare("REPLACE INTO websites (id, company_id, address, source) VALUES (:id, :company_id, :address, :source)");
         $stmt->execute([
             ':id' => $website->getId(),
+            ':company_id' => $website->getCompanyId(),
             ':address' => $website->getAddress(),
             ':source' => $website->getSource()
         ]);
@@ -41,7 +43,7 @@ class SQLiteWebsiteRepository implements WebsiteRepository
 
         if (!$row) return null;
 
-        return new Website($row['address'], $row['source'], $row['id']);
+        return new Website( $row["company_id"], $row['address'], $row['source'], $row['id']);
     }
 
     public function getAll(): array
@@ -49,7 +51,7 @@ class SQLiteWebsiteRepository implements WebsiteRepository
         $stmt = $this->pdo->query("SELECT * FROM websites");
         $companies = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $companies[] = new Website($row['address'], $row['source'], $row['id']);
+            $companies[] = new Website( $row["company_id"], $row['address'], $row['source'], $row['id']);
         }
         return $companies;
     }
