@@ -8,10 +8,11 @@ use Ramsey\Uuid\Uuid;
 class Website
 {
     private string $id;
+    private string $companyId;
     private string $address;
     private Source $source;
 
-    public function __construct(string $address, string $source, ?string $id)
+    public function __construct(string $companyId, string $address, string $source, ?string $id)
     {
         if (empty($id)){
             $this->setId();
@@ -19,6 +20,7 @@ class Website
            $this->id = $id; 
         }       
 
+        $this->companyId = $companyId;
         $this->address = $address;
         $this->source = new Source($source);
     }
@@ -31,6 +33,11 @@ class Website
     public function getId(): string 
     { 
         return $this->id; 
+    }
+
+    public function getCompanyId(): string 
+    { 
+        return $this->companyId; 
     }
 
     public function getAddress(): string 

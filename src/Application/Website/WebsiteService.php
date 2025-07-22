@@ -9,16 +9,16 @@ class WebsiteService
 {
     public function __construct(private WebsiteRepository $repo) {}
 
-    public function create(string $name, string $country): Website
+    public function create(string $companyId, string $address, string $source): Website
     {
-        $website = new Website($name, $country, null);
+        $website = new Website($companyId, $address, $source, null);
         $this->repo->save($website);
         return $website;
     }
 
-    public function update(string $name, string $country, string $id): Website
+    public function update(string $companyId, string $address, string $source, string $id): Website
     {
-        $website = new Website($name, $country, $id);
+        $website = new Website($companyId, $address, $source, $id);
         $this->repo->save($website);
         return $website;
     }
