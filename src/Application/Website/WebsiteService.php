@@ -28,9 +28,9 @@ class WebsiteService
         return $this->repo->getById($id);
     }
 
-    public function all(): array
+    public function all(?string $companyId): array
     {
-        return $this->repo->getAll();
+        return $this->repo->getAll($companyId);
     }
 
     public function delete(string $id): void

@@ -46,14 +46,15 @@ class SQLiteWebsiteRepository implements WebsiteRepository
         return new Website( $row["company_id"], $row['address'], $row['source'], $row['id']);
     }
 
-    public function getAll(): array
+    public function getAll($companyId): array
     {
-        $stmt = $this->pdo->query("SELECT * FROM websites");
-        $companies = [];
+        $stmt = $this->pdo->prepare("SELECT * FROM websites WHERE company_id = :company_id");
+                $stmt->execute(['company_id' => $companyId]);
+        $websites = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $companies[] = new Website( $row["company_id"], $row['address'], $row['source'], $row['id']);
+            $websites[] = new Website( $row["company_id"], $row['address'], $row['source'], $row['id']);
         }
-        return $companies;
+        return $websites;
     }
 
     public function delete(string $id): void

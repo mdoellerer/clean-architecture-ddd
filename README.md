@@ -33,8 +33,7 @@ This should show you an empty collection, it means it is working!
 
 Now, you should also test the websites endpoint 
 <br>http://localhost:8080/companies//websites
-
-This should also return an empty collection at first.
+(this should always return an empty collection, but no errors)
 
 ### Data Operations
 
@@ -47,7 +46,6 @@ http://localhost:8080/companies/e0434c05-0bdc-4cc4-91e0-f80d3b61ebde
 
 The endpoint for Websites is now implemented. You can find them nested in the Companies endpoint. The same operations mentioned above are suported, only now you have a different endpoint. <br>
 Some possible examples:<br>
-http://localhost:8080/companies//websites (list all websites)
 http://localhost:8080/companies/e0434c05-0bdc-4cc4-91e0-f80d3b61ebde/websites/ (all websites of the company defined by the UID)<br>
 http://localhost:8080/companies/e0434c05-0bdc-4cc4-91e0-f80d3b61ebde/websites/fa1370af-3ce2-430e-a6ce-760760cc4c6e/ (will bring you the exact website requested)
 <br><br>

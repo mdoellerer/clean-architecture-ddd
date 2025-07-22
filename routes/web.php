@@ -91,7 +91,9 @@ function getMethodAndParameters(?string $entityId, ?string $childEntityId)
             return ["create" => [$data]];
         } 
         if ($method === 'GET') {
-            return ["list" => null];
+            $data = [];
+            addParentIdToData($data, $currentObjectID, $entityId);
+            return ["list" => [$data]];
         } 
     }
 

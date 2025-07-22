@@ -43,9 +43,9 @@ class WebsiteController
         }
     }
 
-    public function list(): void
+    public function list(?array $request): void
     {
-        $websites = $this->service->all();
+        $websites = $this->service->all($request['parent'] ?? null);
         
         echo json_encode(array_map(fn($w) => [
             'id' => $w->getId(),
