@@ -2,7 +2,7 @@
 Simple, framework-agnostic project to demonstrate the Domain Driven Design using Clean Architecture. 
 
 The 'fake' framework works as a very simplified RestAPI with a bootstrap and routing.
-The DDD and architecture part is located inside the src folder. 
+The DDD and layers are located inside the src folder. 
 
 ## Requirements
  - PHP 8.0 or higher (it might work with 7.4)
@@ -31,6 +31,11 @@ After the server is running try to access the companies endpoint:
 
 This should show you an empty collection, it means it is working!
 
+Now, you should also test the websites endpoint 
+<br>http://localhost:8080/companies//websites
+
+This should also return an empty collection at first.
+
 ### Data Operations
 
 Now you only need to add/edit/delete some data. Since this works as an API endpoint you can use your favourite RestAPI client (such as Postman, Insomnia) to create and manage your requests.
@@ -40,15 +45,23 @@ Just point your requests to http://localhost:8080/companies with method **GET** 
 The **PUT** method also requires the *JSON*  fields explained above.For the methods **PUT** and **DELETE** (or to **GET** only one specific object) you will need to add the id of a given object in the url, like this: <br>
 http://localhost:8080/companies/e0434c05-0bdc-4cc4-91e0-f80d3b61ebde 
 
+The endpoint for Websites is now implemented. You can find them nested in the Companies endpoint. The same operations mentioned above are suported, only now you have a different endpoint. <br>
+Some possible examples:<br>
+http://localhost:8080/companies//websites (list all websites)
+http://localhost:8080/companies/e0434c05-0bdc-4cc4-91e0-f80d3b61ebde/websites/ (all websites of the company defined by the UID)<br>
+http://localhost:8080/companies/e0434c05-0bdc-4cc4-91e0-f80d3b61ebde/websites/fa1370af-3ce2-430e-a6ce-760760cc4c6e/ (will bring you the exact website requested)
+<br><br>
+And so on...
+<br><br>
 It is also possible to make the requests using cURL, maybe in the future I add them here :)
 
 
 ## Known Issues
 
-This is not a perfect solution, it aims to show the DDD Architecture, the location of folders and files, and how to organize them.
+This is not a perfect solution, the aim here is to show some DDD principles inside a Clean Architecture, the location of folders and files, and a suggestion on how to organize them. This is not supposed to be an actual API. 
 It has simplifications here and there, and some of those issues I might address in the future, let's see how it goes. 
 
- - no Aggregates implemented yet
+ - Aggregates not implemented yet, but it is planned 
  - PUT method can create a new Object entirely
  - No implementation for PATCH
  - Id creation does not check for existing uid
