@@ -45,8 +45,8 @@ class Website
         return $this->address; 
     }
 
-    public function getSource(): string 
+    public function getSource(): Source 
     { 
-        return $this->source->getName(); 
+        return $this->source; 
     }
 }

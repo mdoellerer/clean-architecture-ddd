@@ -35,7 +35,7 @@ class WebsiteController
                 'id' => $website->getId(),
                 'company_id' => $website->getCompanyId(),
                 'address' => $website->getAddress(),
-                'source' => $website->getSource()
+                'source' => $website->getSource()->getName()
             ]);
         } else {
             http_response_code(404);
@@ -51,7 +51,7 @@ class WebsiteController
             'id' => $w->getId(),
             'company_id' => $w->getCompanyId(),
             'address' => $w->getAddress(),
-            'source' => $w->getSource()
+            'source' => $w->getSource()->getName()
         ], $websites));
     }
 
@@ -63,7 +63,7 @@ class WebsiteController
                 'id' => $website->getId(),
                 'company_id' => $website->getCompanyId(),
                 'address' => $website->getAddress(),
-                'source' => $website->getSource()
+                'source' => $website->getSource()->getName()
             ]);
         } else {
             http_response_code(404);

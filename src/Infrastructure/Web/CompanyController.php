@@ -34,7 +34,7 @@ class CompanyController
             echo json_encode([
                 'id' => $company->getId(),
                 'name' => $company->getName(),
-                'country' => $company->getCountry()
+                'country' => $company->getCountry()->getName()
             ]);
         } else {
             http_response_code(404);
@@ -49,7 +49,7 @@ class CompanyController
         echo json_encode(array_map(fn($c) => [
             'id' => $c->getId(),
             'name' => $c->getName(),
-            'country' => $c->getCountry()
+            'country' => $c->getCountry()->getName()
         ], $companies));
     }
 
@@ -60,7 +60,7 @@ class CompanyController
             echo json_encode([
                 'id' => $company->getId(),
                 'name' => $company->getName(),
-                'country' => $company->getCountry()
+                'country' => $company->getCountry()->getName()
             ]);
         } else {
             http_response_code(404);

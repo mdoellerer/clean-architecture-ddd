@@ -31,7 +31,7 @@ class SQLiteWebsiteRepository implements WebsiteRepository
             ':id' => $website->getId(),
             ':company_id' => $website->getCompanyId(),
             ':address' => $website->getAddress(),
-            ':source' => $website->getSource()
+            ':source' => $website->getSource()->getName()
         ]);
     }
 

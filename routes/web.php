@@ -15,7 +15,7 @@ $childEntity = $splitUri[3] ?? null;
 $childEntityId = $splitUri[4] ?? '';
 
 $controller = getController($entity, $childEntity);
-$methodAndParameters = getMethodAndParameters($entityId, $childEntityId);
+$methodAndParameters = getMethodAndParameters($entityId, $childEntityId, $childEntity);
 
 if ($controller && $methodAndParameters) {
     $method = key($methodAndParameters);
@@ -66,13 +66,13 @@ function isChildEntity(?string $childEntity): bool
     return empty($childEntity) === false;
 }
 
-function getMethodAndParameters(?string $entityId, ?string $childEntityId)
+function getMethodAndParameters(?string $entityId, ?string $childEntityId, ?string $childEntity)
 {
     $method = $_SERVER['REQUEST_METHOD']; 
 
-    $currentObjectID = $childEntityId ?? $entityId;
+    $currentObjectID =  $childEntity ? $childEntityId : $entityId;
 
-    if ($currentObjectID){
+    if (!empty($currentObjectID)){
         if ($method === 'GET') {
             return ["get" => [$currentObjectID]];;
         } 

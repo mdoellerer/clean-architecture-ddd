@@ -29,7 +29,7 @@ class SQLiteCompanyRepository implements CompanyRepository
         $stmt->execute([
             ':id' => $company->getId(),
             ':name' => $company->getName(),
-            ':country' => $company->getCountry()
+            ':country' => $company->getCountry()->getName()
         ]);
     }
 

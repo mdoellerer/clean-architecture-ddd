@@ -38,8 +38,8 @@ class Company
         return $this->name; 
     }
 
-    public function getCountry(): string 
+    public function getCountry(): Country 
     { 
-        return $this->country->getName(); 
+        return $this->country; 
     }
 }
