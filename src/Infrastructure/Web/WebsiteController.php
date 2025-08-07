@@ -10,7 +10,13 @@ class WebsiteController
 
     private function validateRequest(array $request): void
     {
-        if (empty($request["parent"]) || empty($request['address']) || empty($request['source'])) {
+        if (
+            empty($request["parent"]) || 
+            empty($request['address']) || 
+            empty($request['source']) || 
+            empty($request['roi']) || 
+            empty($request['subscribers'])
+            ) {
             http_response_code(400);
             echo json_encode(['error' => 'Invalid or Missing arguments']);
             exit;
@@ -20,7 +26,9 @@ class WebsiteController
     public function create(array $request): void
     {
         $this->validateRequest($request);
-        $website = $this->service->create($request['parent'], $request['address'], $request['source']);
+        $website = $this->service->create(
+            $request['parent'], $request['address'], $request['source'], $request['roi'], $request['subscribers']
+        );
         
         echo json_encode(['id' => $website->getId()]);
     }
@@ -28,14 +36,19 @@ class WebsiteController
     public function update(array $request, string $id): void
     {
         $this->validateRequest($request);
-        $website = $this->service->update($request['parent'], $request['address'], $request['source'], $id);
+        $website = $this->service->update(
+            $request['parent'], $request['address'], $request['source'], $id, $request['roi'], $request['subscribers']
+        );
         
         if ($website) {
             echo json_encode([
                 'id' => $website->getId(),
                 'company_id' => $website->getCompanyId(),
                 'address' => $website->getAddress(),
-                'source' => $website->getSource()->getName()
+                'source' => $website->getSource()->getName(),
+                'roi' => $website->getRoi(),
+                'subscribers' => $website->getSubscribers(),
+                'updatedAt' => $website->getUpdatedAt()
             ]);
         } else {
             http_response_code(404);
@@ -51,7 +64,10 @@ class WebsiteController
             'id' => $w->getId(),
             'company_id' => $w->getCompanyId(),
             'address' => $w->getAddress(),
-            'source' => $w->getSource()->getName()
+            'source' => $w->getSource()->getName(),
+            'roi' => $w->getRoi(),
+            'subscribers' => $w->getSubscribers(),
+            'updatedAt' => $w->getUpdatedAt()
         ], $websites));
     }
 
@@ -63,7 +79,10 @@ class WebsiteController
                 'id' => $website->getId(),
                 'company_id' => $website->getCompanyId(),
                 'address' => $website->getAddress(),
-                'source' => $website->getSource()->getName()
+                'source' => $website->getSource()->getName(),
+                'roi' => $website->getRoi(),
+                'subscribers' => $website->getSubscribers(),
+                'updatedAt' => $website->getUpdatedAt()
             ]);
         } else {
             http_response_code(404);

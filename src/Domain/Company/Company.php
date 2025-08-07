@@ -3,6 +3,7 @@
 namespace Domain\Company;
 
 use Domain\Company\ValueObject\Country;
+use Domain\Strategy\DefaultStrategy;
 use Ramsey\Uuid\Uuid;
 
 class Company
@@ -10,8 +11,9 @@ class Company
     private string $id;
     private string $name;
     private Country $country;
+    private string $strategyId;
 
-    public function __construct(string $name, string $country, ?string $id)
+    public function __construct(string $name, string $country, ?string $strategyId, ?string $id)
     {
         if (empty($id)){
             $this->setId();
@@ -21,11 +23,22 @@ class Company
 
         $this->name = $name;
         $this->country = new Country($country);
+
+        $this->setStrategyId($strategyId);
     }
 
     private function setId(): void
     {
         $this->id = Uuid::uuid4()->toString();
+    }
+
+    private function setStrategyId(?string $strategyId): void
+    {
+        if (empty($strategyId)){
+            $this->strategyId = DefaultStrategy::STRATEGY_NAME;
+        } else {
+            $this->strategyId = $strategyId;
+        }        
     }
 
     public function getId(): string 
@@ -41,5 +54,10 @@ class Company
     public function getCountry(): Country 
     { 
         return $this->country; 
+    }
+
+    public function getStrategyId(): string 
+    { 
+        return $this->strategyId; 
     }
 }

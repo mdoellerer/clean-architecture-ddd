@@ -20,7 +20,7 @@ class CompanyController
     public function create(array $request): void
     {
         $this->validateRequest($request);
-        $company = $this->service->create($request['name'], $request['country']);
+        $company = $this->service->create($request['name'], $request['country'], $request['strategy_id'] ?? null);
         
         echo json_encode(['id' => $company->getId()]);
     }
@@ -28,13 +28,14 @@ class CompanyController
     public function update(array $request, string $id): void
     {
         $this->validateRequest($request);
-        $company = $this->service->update($request['name'], $request['country'], $id);
+        $company = $this->service->update($request['name'], $request['country'], $request['strategy_id'] ?? null, $id);
         
         if ($company) {
             echo json_encode([
                 'id' => $company->getId(),
                 'name' => $company->getName(),
-                'country' => $company->getCountry()->getName()
+                'country' => $company->getCountry()->getName(),
+                'strategy_id' => $company->getStrategyId()
             ]);
         } else {
             http_response_code(404);
@@ -49,7 +50,8 @@ class CompanyController
         echo json_encode(array_map(fn($c) => [
             'id' => $c->getId(),
             'name' => $c->getName(),
-            'country' => $c->getCountry()->getName()
+            'country' => $c->getCountry()->getName(),
+            'strategy_id' => $c->getStrategyId()
         ], $companies));
     }
 
@@ -60,7 +62,8 @@ class CompanyController
             echo json_encode([
                 'id' => $company->getId(),
                 'name' => $company->getName(),
-                'country' => $company->getCountry()->getName()
+                'country' => $company->getCountry()->getName(),
+                'strategy_id' => $company->getStrategyId()
             ]);
         } else {
             http_response_code(404);
