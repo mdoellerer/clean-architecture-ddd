@@ -9,16 +9,16 @@ class CompanyService
 {
     public function __construct(private CompanyRepository $repo) {}
 
-    public function create(string $name, string $country): Company
+    public function create(string $name, string $country, ?string $strategyId): Company
     {
-        $company = new Company($name, $country, null);
+        $company = new Company($name, $country, $strategyId, null);
         $this->repo->save($company);
         return $company;
     }
 
-    public function update(string $name, string $country, string $id): Company
+    public function update(string $name, string $country, ?string $strategyId, string $id): Company
     {
-        $company = new Company($name, $country, $id);
+        $company = new Company($name, $country, $strategyId, $id);
         $this->repo->save($company);
         return $company;
     }

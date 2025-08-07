@@ -19,17 +19,19 @@ class SQLiteCompanyRepository implements CompanyRepository
         $this->pdo->exec("CREATE TABLE IF NOT EXISTS companies (
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
-            country TEXT NOT NULL
+            country TEXT NOT NULL,
+            strategy_id TEXT NOT NULL
         )");
     }
 
     public function save(Company $company): void
     {
-        $stmt = $this->pdo->prepare("REPLACE INTO companies (id, name, country) VALUES (:id, :name, :country)");
+        $stmt = $this->pdo->prepare("REPLACE INTO companies (id, name, country, strategy_id) VALUES (:id, :name, :country, :strategy_id)");
         $stmt->execute([
             ':id' => $company->getId(),
             ':name' => $company->getName(),
-            ':country' => $company->getCountry()->getName()
+            ':country' => $company->getCountry()->getName(),
+            ':strategy_id' => $company->getStrategyId()
         ]);
     }
 
@@ -41,7 +43,7 @@ class SQLiteCompanyRepository implements CompanyRepository
 
         if (!$row) return null;
 
-        return new Company($row['name'], $row['country'], $row['id']);
+        return new Company($row['name'], $row['country'], $row['strategy_id'], $row['id']);
     }
 
     public function getAll(): array
@@ -49,7 +51,7 @@ class SQLiteCompanyRepository implements CompanyRepository
         $stmt = $this->pdo->query("SELECT * FROM companies");
         $companies = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $companies[] = new Company($row['name'], $row['country'], $row['id']);
+            $companies[] = new Company($row['name'], $row['country'], $row['strategy_id'], $row['id']);
         }
         return $companies;
     }
