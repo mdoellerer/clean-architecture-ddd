@@ -59,7 +59,6 @@ It is also possible to make the requests using cURL, maybe in the future I add t
 This is not a perfect solution, the aim here is to show some DDD principles inside a Clean Architecture, the location of folders and files, and a suggestion on how to organize them. This is not supposed to be an actual API. 
 It has simplifications here and there, and some of those issues I might address in the future, let's see how it goes. 
 
- - Aggregates not implemented yet, but it is planned 
  - PUT method can create a new Object entirely
  - No implementation for PATCH
  - Id creation does not check for existing uid

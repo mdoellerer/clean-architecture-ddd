@@ -62,7 +62,7 @@ class SQLiteWebsiteRepository implements WebsiteRepository
         );
     }
 
-    public function getAll($companyId): array
+    public function getAllByCompanyId($companyId): array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM websites WHERE company_id = :company_id");
                 $stmt->execute(['company_id' => $companyId]);

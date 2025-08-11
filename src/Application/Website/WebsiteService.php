@@ -30,7 +30,7 @@ class WebsiteService
 
     public function all(?string $companyId): array
     {
-        return $this->repo->getAll($companyId);
+        return $this->repo->getAllByCompanyId($companyId);
     }
 
     public function delete(string $id): void
