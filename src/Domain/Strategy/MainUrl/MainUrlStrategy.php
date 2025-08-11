@@ -1,8 +1,8 @@
 <?php
 
-namespace Domain\Strategy;
+namespace Domain\Strategy\MainUrl;
 
-interface Strategy
+interface MainUrlStrategy
 {
     public function getName(): string;
     public function setWebsites(array $websiteList): void;

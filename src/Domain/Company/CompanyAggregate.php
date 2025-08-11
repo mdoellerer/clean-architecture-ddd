@@ -3,7 +3,7 @@
 namespace Domain\Company;
 
 use Domain\Company\ValueObject\Country;
-use Domain\Strategy\Strategy;
+use Domain\Strategy\MainUrl\MainUrlStrategy;
 use Domain\Website\Website;
 
 class CompanyAggregate
@@ -22,7 +22,7 @@ class CompanyAggregate
 
     public function removeWebsite(string $websiteId) {}
 
-    public function updateStrategy(Strategy $strategy) { }
+    public function updateStrategy(MainUrlStrategy $strategy) { }
 
     private function setMainUrlBasedOnStrategy() {}
 }

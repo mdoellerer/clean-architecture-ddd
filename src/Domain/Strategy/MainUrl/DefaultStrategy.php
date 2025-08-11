@@ -1,8 +1,8 @@
 <?php
 
-namespace Domain\Strategy;
+namespace Domain\Strategy\MainUrl;
 
-class DefaultStrategy implements Strategy
+class DefaultStrategy implements MainUrlStrategy
 {
     public const STRATEGY_NAME = 'DefaultStrategy';
 
