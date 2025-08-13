@@ -15,16 +15,6 @@ class SQLiteWebsiteRepository implements WebsiteRepository
     {
         $this->pdo = new PDO('sqlite:' . $dbPath);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $this->pdo->exec("CREATE TABLE IF NOT EXISTS websites (
-            id TEXT PRIMARY KEY,
-            company_id TEXT NOT NULL,
-            address TEXT NOT NULL,
-            source TEXT NOT NULL,
-            roi INT NULL,
-            subscribers INT NULL,
-            updated_at INT NOT NULL
-        )");
     }
 
     public function save(Website $website): void

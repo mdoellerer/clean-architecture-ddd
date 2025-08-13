@@ -15,13 +15,6 @@ class SQLiteCompanyRepository implements CompanyRepository
     {
         $this->pdo = new PDO('sqlite:' . $dbPath);
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $this->pdo->exec("CREATE TABLE IF NOT EXISTS companies (
-            id TEXT PRIMARY KEY,
-            name TEXT NOT NULL,
-            country TEXT NOT NULL,
-            strategy_id TEXT NOT NULL
-        )");
     }
 
     public function save(Company $company): void
