@@ -71,7 +71,7 @@ class CompanyController
         }
     }
 
-    public function delete(string $id): void
+    public function delete(array $request, string $id): void
     {
         $this->service->delete($id);
         

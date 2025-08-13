@@ -3,7 +3,7 @@
 namespace Domain\Company;
 
 use Domain\Company\ValueObject\Country;
-use Domain\Strategy\DefaultStrategy;
+use Domain\Strategy\MainUrl\DefaultStrategy;
 use Ramsey\Uuid\Uuid;
 
 class Company

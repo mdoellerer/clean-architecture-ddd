@@ -90,9 +90,9 @@ class WebsiteController
         }
     }
 
-    public function delete(string $id): void
+    public function delete(array $request, string $id): void
     {
-        $this->service->delete($id);
+        $this->service->delete($id, $request['parent']);
         
         echo json_encode(['deleted' => true]);
     }
