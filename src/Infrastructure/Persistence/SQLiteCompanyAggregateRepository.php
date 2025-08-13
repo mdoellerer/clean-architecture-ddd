@@ -18,7 +18,6 @@ class SQLiteCompanyAggregateRepository implements CompanyAggregateRepository
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-
     public function getById(string $id): ?CompanyAggregate
     {
         $stmt = $this->pdo->prepare("SELECT * FROM companies WHERE id = :id");
@@ -56,6 +55,52 @@ class SQLiteCompanyAggregateRepository implements CompanyAggregateRepository
 
     public function save(CompanyAggregate $companyAggregate): void
     {
-        var_dump($companyAggregate);
+        //$company = $companyAggregate->company;
+        $websites = $companyAggregate->getWebsiteList();
+        $deletedWebsites = $companyAggregate->getWebsiteDeletions();
+        $mainUrl = $companyAggregate->mainUrl;
+
+
+        // Wrap all Aggregate Changes in one Transaction 
+        $this->pdo->beginTransaction();
+
+        try 
+        {
+            foreach ($websites as $website){
+                $stmt = $this->pdo
+                ->prepare("REPLACE INTO websites (id, company_id, address, source, roi, subscribers, updated_at) VALUES (:id, :company_id, :address, :source, :roi, :subscribers, :updated_at)");
+            
+                $stmt->execute([
+                    ':id' => $website->getId(),
+                    ':company_id' => $website->getCompanyId(),
+                    ':address' => $website->getAddress(),
+                    ':source' => $website->getSource()->getName(),
+                    ':roi' => $website->getRoi(),
+                    ':subscribers' => $website->getSubscribers(),
+                    ':updated_at' => $website->getUpdatedAt()
+                ]);
+            }
+
+            foreach ($deletedWebsites as $deletedWebsite){
+                $stmt = $this->pdo->prepare("DELETE FROM websites WHERE id = :id");
+                $stmt->execute([':id' => $deletedWebsite]);
+            }
+
+            if ($mainUrl?->websiteId){
+                $stmt = $this->pdo
+                    ->prepare("REPLACE INTO company_main_url (company_id, website_id) VALUES (:company_id, :website_id)");
+                
+                $stmt->execute([
+                    ':company_id' => $mainUrl->companyId,
+                    ':website_id' => $mainUrl->websiteId
+                ]);                
+            }
+
+            $this->pdo->commit();
+
+        } catch (\Exception $e) {
+            $this->pdo->rollback();
+            throw $e;
+        }
     }
 }

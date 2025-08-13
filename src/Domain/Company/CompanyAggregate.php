@@ -8,11 +8,11 @@ use Domain\Website\Website;
 
 class CompanyAggregate
 {
-    private MainUrl $mainUrl;
+    readonly MainUrl $mainUrl;
 
     private Strategy $strategy;
 
-    public array $removedWebsite = [];
+    private array $removedWebsite = [];
 
     public function __construct(
             private Company $company,
@@ -28,24 +28,38 @@ class CompanyAggregate
 
     public function updateWebsite(Website $website) : void
     {
-        $this->removeWebsite($website->getId());
-        $this->addWebsite($website);    
+        foreach ($this->websiteList as $key => $value){
+            if ($website->getId() === $value->getId())
+            {
+                unset($this->websiteList[$key]);
+            }
+        }
+        array_push($this->websiteList, $website);
 
-        $this->setMainUrlBasedOnStrategy();
+        $this->setMainUrlBasedOnStrategy();  
     }
 
     public function removeWebsite(string $websiteId) : void
     {
-        // @var Website $website
-        foreach ($this->websiteList as $key => $website){
-            if ($website->getId() === $websiteId)
+        foreach ($this->websiteList as $key => $value){
+            if ($value->getId() === $websiteId)
             {
-                $this->removedWebsite[$key] = $key;
+                $this->removedWebsite[$websiteId] = $websiteId;
                 unset($this->websiteList[$key]);
             }
         }
 
         $this->setMainUrlBasedOnStrategy();
+    }
+
+    public function getWebsiteDeletions() : array
+    {
+        return $this->removedWebsite;
+    }
+
+    public function getWebsiteList() : array
+    {
+        return $this->websiteList;
     }
 
     private function setMainUrlBasedOnStrategy() : void
