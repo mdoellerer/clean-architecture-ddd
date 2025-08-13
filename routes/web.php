@@ -4,6 +4,7 @@ use Infrastructure\Web\CompanyController;
 use Infrastructure\Persistence\SQLiteCompanyRepository;
 use Application\Company\CompanyService;
 use Application\Website\WebsiteService;
+use Infrastructure\Persistence\SQLiteCompanyAggregateRepository;
 use Infrastructure\Persistence\SQLiteWebsiteRepository;
 use Infrastructure\Web\WebsiteController;
 
@@ -56,7 +57,8 @@ function getControllerChildEntity(?string $childEntity)
 {
     if ($childEntity === WEBSITE_ENTITY_API_NAME){
         $repo = new SQLiteWebsiteRepository();
-        $service = new WebsiteService($repo);
+        $repoAggregate = new SQLiteCompanyAggregateRepository();
+        $service = new WebsiteService($repo, $repoAggregate);
         return new WebsiteController($service);  
     }
 }
@@ -82,7 +84,9 @@ function getMethodAndParameters(?string $entityId, ?string $childEntityId, ?stri
             return ["update" => [$data, $currentObjectID]];
         } 
         if ($method === 'DELETE') {
-            return ["delete" => [$currentObjectID]];;
+            $data = [];
+            addParentIdToData($data, $currentObjectID, $entityId);
+            return ["delete" => [$data, $currentObjectID]];;
         }        
     } else {
         if ($method === 'POST') {

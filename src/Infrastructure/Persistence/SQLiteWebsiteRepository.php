@@ -17,7 +17,8 @@ class SQLiteWebsiteRepository implements WebsiteRepository
         $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function save(Website $website): void
+    // @deprecated - Use CompanyAggregateRepository Instead
+    private function save(Website $website): void
     {
         $stmt = $this->pdo
             ->prepare("REPLACE INTO websites (id, company_id, address, source, roi, subscribers, updated_at) VALUES (:id, :company_id, :address, :source, :roi, :subscribers, :updated_at)");
@@ -52,7 +53,8 @@ class SQLiteWebsiteRepository implements WebsiteRepository
         );
     }
 
-    public function getAllByCompanyId($companyId): array
+    // @deprecated - Use CompanyAggregateRepository Instead
+    private function getAllByCompanyId($companyId): array
     {
         $stmt = $this->pdo->prepare("SELECT * FROM websites WHERE company_id = :company_id");
                 $stmt->execute(['company_id' => $companyId]);
@@ -71,7 +73,8 @@ class SQLiteWebsiteRepository implements WebsiteRepository
         return $websites;
     }
 
-    public function delete(string $id): void
+    // @deprecated - Use CompanyAggregateRepository Instead
+    private function delete(string $id): void
     {
         $stmt = $this->pdo->prepare("DELETE FROM websites WHERE id = :id");
         $stmt->execute(['id' => $id]);

@@ -2,27 +2,59 @@
 
 namespace Domain\Company;
 
-use Domain\Company\ValueObject\Country;
-use Domain\Strategy\MainUrl\MainUrlStrategy;
+use Domain\MainUrl\MainUrl;
+use Domain\Strategy\MainUrl\Strategy;
 use Domain\Website\Website;
 
 class CompanyAggregate
 {
+    private MainUrl $mainUrl;
+
+    private Strategy $strategy;
+
+    public array $removedWebsite = [];
+
     public function __construct(
-            private string $id,
-            private string $name,
-            private Country $country,
-            private string $strategyId,
+            private Company $company,
             private array $websiteList
         ) {}
 
-    public function addWebsite(Website $website) {}
+    public function addWebsite(Website $website) : void
+    {
+        array_push($this->websiteList, $website);
 
-    public function updateWebsite(Website $website) {}
+        $this->setMainUrlBasedOnStrategy();
+    }
 
-    public function removeWebsite(string $websiteId) {}
+    public function updateWebsite(Website $website) : void
+    {
+        $this->removeWebsite($website->getId());
+        $this->addWebsite($website);    
 
-    public function updateStrategy(MainUrlStrategy $strategy) { }
+        $this->setMainUrlBasedOnStrategy();
+    }
 
-    private function setMainUrlBasedOnStrategy() {}
+    public function removeWebsite(string $websiteId) : void
+    {
+        // @var Website $website
+        foreach ($this->websiteList as $key => $website){
+            if ($website->getId() === $websiteId)
+            {
+                $this->removedWebsite[$key] = $key;
+                unset($this->websiteList[$key]);
+            }
+        }
+
+        $this->setMainUrlBasedOnStrategy();
+    }
+
+    private function setMainUrlBasedOnStrategy() : void
+    {
+        $className = 'Domain\\Strategy\\MainUrl\\' . $this->company->getStrategyId();
+        $strategy = new $className($this->websiteList);
+
+        $this->mainUrl = $strategy?->apply();
+    }
+
+    public function updateStrategy(Strategy $strategy) { }
 }

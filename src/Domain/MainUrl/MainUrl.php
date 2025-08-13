@@ -7,7 +7,7 @@ class MainUrl
 {
     public function __construct(
         private string $companyId, 
-        private string $websiteId
+        private ?string $websiteId
         )
     {}
 

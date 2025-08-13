@@ -2,39 +2,53 @@
 
 namespace Application\Website;
 
+use Domain\Company\CompanyAggregateRepository;
 use Domain\Website\Website;
 use Domain\Website\WebsiteRepository;
 
 class WebsiteService
 {
-    public function __construct(private WebsiteRepository $repo) {}
+    public function __construct(
+        private WebsiteRepository $repository,
+        private CompanyAggregateRepository $aggregateRepository
+        ) {}
 
     public function create(string $companyId, string $address, string $source, ?int $roi, ?int $subscribers): Website
     {
         $website = new Website($companyId, $address, $source, null, $roi, $subscribers, null);
-        $this->repo->save($website);
+
+        $companyAggregate = $this->aggregateRepository->getById($companyId);
+        $companyAggregate->addWebsite($website);
+        $this->aggregateRepository->save($companyAggregate);
+
         return $website;
     }
 
     public function update(string $companyId, string $address, string $source, string $id, ?int $roi, ?int $subscribers): Website
     {
         $website = new Website($companyId, $address, $source, $id, $roi, $subscribers, null);
-        $this->repo->save($website);
+        
+        $companyAggregate = $this->aggregateRepository->getById($companyId);
+        $companyAggregate->updateWebsite($website);
+        $this->aggregateRepository->save($companyAggregate);
+
         return $website;
     }
 
     public function get(string $id): ?Website
     {
-        return $this->repo->getById($id);
+        return $this->repository->getById($id);
     }
 
     public function all(?string $companyId): array
     {
-        return $this->repo->getAllByCompanyId($companyId);
+        return $this->aggregateRepository->getWebsiteListByCompany($companyId);
     }
 
-    public function delete(string $id): void
+    public function delete(string $websiteId, string $companyId): void
     {
-        $this->repo->delete($id);
+        $companyAggregate = $this->aggregateRepository->getById($companyId);
+        $companyAggregate->removeWebsite($websiteId);
+        $this->aggregateRepository->save($companyAggregate);
     }
 }
