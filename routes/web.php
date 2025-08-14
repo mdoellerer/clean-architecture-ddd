@@ -5,9 +5,9 @@ use Infrastructure\Persistence\SQLiteCompanyRepository;
 use Application\Company\CompanyService;
 use Application\Website\WebsiteService;
 use Infrastructure\Persistence\SQLiteCompanyAggregateRepository;
-use Infrastructure\Persistence\SQLiteReportRepository;
+use Infrastructure\Persistence\SQLiteDumpRepository;
 use Infrastructure\Persistence\SQLiteWebsiteRepository;
-use Infrastructure\Web\ReportController;
+use Infrastructure\Web\DumpController;
 use Infrastructure\Web\WebsiteController;
 
 $uri = $_SERVER['REQUEST_URI'];
@@ -54,10 +54,10 @@ function getControllerEntity(?string $entity)
         return new CompanyController($service);  
     }
 
-    if ($entity === MAINURL_ENTITY_API_NAME)
+    if ($entity === DUMP_DATA_NAME)
         {
-        $repo = new SQLiteReportRepository();
-        return new ReportController($repo);  
+        $repo = new SQLiteDumpRepository();
+        return new DumpController($repo);  
     }
 }
 
